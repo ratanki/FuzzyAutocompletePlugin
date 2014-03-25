@@ -10,9 +10,25 @@
 
 @implementation FuzzyAutocomplete
 
-+ (void)pluginDidLoad:(NSBundle *)plugin
++ (BOOL)shouldPrioritizeShortestMatch
 {
-    ALog(@"Plugin loaded");
+    static BOOL prioritizeShortestMatch;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        prioritizeShortestMatch = [[NSUserDefaults standardUserDefaults] boolForKey:@"FuzzyAutocompletePrioritizeShortestMatch"];
+    });
+    return prioritizeShortestMatch;
 }
+
++ (BOOL)shouldInsertPartialPrefix
+{
+    static BOOL insertPartialPrefix;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        insertPartialPrefix = [[NSUserDefaults standardUserDefaults] boolForKey:@"FuzzyAutocompleteInsertPartialPrefix"];
+    });
+    return insertPartialPrefix;
+}
+
 
 @end

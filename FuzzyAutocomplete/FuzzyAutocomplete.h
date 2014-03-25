@@ -10,4 +10,7 @@
 
 @interface FuzzyAutocomplete : NSObject
 
++ (BOOL)shouldPrioritizeShortestMatch;
++ (BOOL)shouldInsertPartialPrefix;
+
 @end

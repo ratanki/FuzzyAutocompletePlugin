@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Sproutcube. All rights reserved.
 //
 
+#import "FuzzyAutocomplete.h"
 #import "DVTTextCompletionSession+FuzzyAutocomplete.h"
 #import "DVTTextCompletionInlinePreviewController.h"
 #import "DVTTextCompletionListWindowController.h"
@@ -17,8 +18,13 @@
 
 @implementation DVTTextCompletionSession (FuzzyAutocomplete)
 
+static BOOL prioritizeShortestMatch;
+static BOOL insertPartialPrefix;
+
 + (void)load
 {
+    prioritizeShortestMatch = [FuzzyAutocomplete shouldPrioritizeShortestMatch];
+    insertPartialPrefix = [FuzzyAutocomplete shouldInsertPartialPrefix];
     [self swizzleMethodWithErrorLogging:@selector(_setFilteringPrefix:forceFilter:) withMethod:@selector(_fa_setFilteringPrefix:forceFilter:)];
     [self swizzleMethodWithErrorLogging:@selector(setAllCompletions:) withMethod:@selector(_fa_setAllCompletions:)];
     [self swizzleMethodWithErrorLogging:@selector(insertCurrentCompletion) withMethod:@selector(_fa_insertCurrentCompletion)];
@@ -40,6 +46,12 @@ static char insertingCompletionKey;
 
 - (BOOL)_fa_insertUsefulPrefix
 {
+    if (insertPartialPrefix) {
+        IDEIndexCompletionItem *current = self.filteredCompletionsAlpha[self.selectedCompletionIndex];
+        if ([current.name hasPrefix:self.usefulPrefix]) {
+            return [self _fa_insertUsefulPrefix];
+        }
+    }
     return [self insertCurrentCompletion];
 }
 
@@ -94,7 +106,7 @@ static char insertingCompletionKey;
             return;
         }
         
-        double totalTime = timeVoidBlock(^{
+        double __unused totalTime = timeVoidBlock(^{
             NSArray *searchSet;
             NSString *lastPrefix = objc_getAssociatedObject(self, &lastPrefixKey);
 
@@ -159,6 +171,17 @@ static char insertingCompletionKey;
                 self.selectedCompletionIndex = NSNotFound;
             }
             
+            if (insertPartialPrefix) {
+                NSArray *prefixMatches = [self.filteredCompletionsAlpha filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name beginswith[c] %@", prefix]];
+                long long index = [self _indexOfItem:bestMatch inAlphabeticalList:prefixMatches mustBeThere:NO];
+                if (index >= 0) {
+                    self.usefulPrefix = [self _usefulPartialCompletionPrefixForItems:prefixMatches selectedIndex:index filteringPrefix:prefix];
+                }
+                else {
+                    self.usefulPrefix = nil;
+                }
+            }
+
             // IDEIndexCompletionItem doesn't implement isEqual
             DVTTextCompletionInlinePreviewController *inlinePreview = [self _inlinePreviewController];
             if (![originalMatch.name isEqual:bestMatch.name]) {
@@ -196,11 +219,21 @@ static char insertingCompletionKey;
         if (score > MINIMUM_SCORE_THRESHOLD) {
             [filteredList addObject:item];
         }
-        if (score > highScore && item.name.length <= length) {
-            bestMatch = item;
-            highScore = score;
-            length = item.name.length;
+        
+        if (prioritizeShortestMatch) {
+            if (score > highScore && item.name.length <= length) {
+                bestMatch = item;
+                highScore = score;
+                length = item.name.length;
+            }
         }
+        else {
+            if (score > highScore) {
+                bestMatch = item;
+                highScore = score;
+            }
+        }
+        
     }];
     
     if (filtered) {
