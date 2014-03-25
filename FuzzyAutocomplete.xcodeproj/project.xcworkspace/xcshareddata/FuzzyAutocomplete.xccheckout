@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>40A30AF2-A727-4BBA-8A24-553582008CC4</string>
+	<string>6127335A-6DA8-4B9B-97AC-04D3F26EB660</string>
 	<key>IDESourceControlProjectName</key>
 	<string>FuzzyAutocomplete</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>D568FCFF-9678-4D0D-9F6D-0F28DE68ACF6</key>
-		<string>ssh://github.com/chendo/FuzzyAutocompletePlugin.git</string>
+		<key>ED2CE7DE-B2E3-471B-920A-E9E3F9443FA1</key>
+		<string>http://github.com/ratanki/FuzzyAutocompletePlugin</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>FuzzyAutocomplete.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>D568FCFF-9678-4D0D-9F6D-0F28DE68ACF6</key>
+		<key>ED2CE7DE-B2E3-471B-920A-E9E3F9443FA1</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/chendo/FuzzyAutocompletePlugin.git</string>
+	<string>http://github.com/ratanki/FuzzyAutocompletePlugin</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>D568FCFF-9678-4D0D-9F6D-0F28DE68ACF6</string>
+	<string>ED2CE7DE-B2E3-471B-920A-E9E3F9443FA1</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>D568FCFF-9678-4D0D-9F6D-0F28DE68ACF6</string>
+			<string>ED2CE7DE-B2E3-471B-920A-E9E3F9443FA1</string>
 			<key>IDESourceControlWCCName</key>
-			<string>FuzzyAutocomplete</string>
+			<string>FuzzyAutocompletePlugin</string>
 		</dict>
 	</array>
 </dict>
