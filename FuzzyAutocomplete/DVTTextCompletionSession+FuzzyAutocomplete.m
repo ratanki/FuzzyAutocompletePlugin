@@ -319,12 +319,13 @@
 - (void)_fa_setFilteringPrefix: (NSString *) prefix forceFilter: (BOOL) forceFilter {
     DLog(@"filteringPrefix = @\"%@\"", prefix);
 
-  // ini rsampedro. I only want to remove the goddamn preview
-  [self _fa_setFilteringPrefix:prefix forceFilter:forceFilter];
-  DVTTextCompletionInlinePreviewController *inlinePreview = [self _inlinePreviewController];
-  [inlinePreview hideInlinePreviewWithReason:0];
-  return;
-  // end rsampedro. I only want to remove the goddamn preview
+// This seems now a feature in the original plugin
+//  // ini rsampedro. I only want to remove the goddamn preview
+//  [self _fa_setFilteringPrefix:prefix forceFilter:forceFilter];
+//  DVTTextCompletionInlinePreviewController *inlinePreview = [self _inlinePreviewController];
+//  [inlinePreview hideInlinePreviewWithReason:0];
+//  return;
+//  // end rsampedro. I only want to remove the goddamn preview
 
     // remove all cached results which are not case-insensitive prefixes of the new prefix
     // only if case-sensitive exact match happens the whole cached result is used
